@@ -1,4 +1,4 @@
-package Entidades;
+package com.Springboot.Biblioteca_backend.Entidades;
 
 
 import jakarta.persistence.*;
@@ -13,7 +13,7 @@ public class Autor {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "fecha_nacimiento", nullable = false, length = 200)
+    @Column(name = "nombre_completo", nullable = false, length = 200)
     private String nombreCompleto;
 
     @Column(length = 60)
