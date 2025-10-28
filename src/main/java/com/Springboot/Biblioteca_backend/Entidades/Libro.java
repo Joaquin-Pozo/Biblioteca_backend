@@ -4,7 +4,39 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "libro")
+@lombok.Data
+
 public class Libro {
+    public Autor getAutor() {
+        return autor;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public String getEditorial() {
+        return editorial;
+    }
+
+    public Integer getAnioPublicacion() {
+        return anioPublicacion;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
