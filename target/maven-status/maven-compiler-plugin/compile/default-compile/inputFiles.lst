@@ -1,9 +1,14 @@
-/home/jjoacoder/Desktop/Taller de Base de Datos/backend/Biblioteca_backend/src/main/java/Entidades/Autor.java
-/home/jjoacoder/Desktop/Taller de Base de Datos/backend/Biblioteca_backend/src/main/java/Entidades/Copia.java
-/home/jjoacoder/Desktop/Taller de Base de Datos/backend/Biblioteca_backend/src/main/java/Entidades/EstadoCopia.java
-/home/jjoacoder/Desktop/Taller de Base de Datos/backend/Biblioteca_backend/src/main/java/Entidades/EstadoPrestamo.java
-/home/jjoacoder/Desktop/Taller de Base de Datos/backend/Biblioteca_backend/src/main/java/Entidades/EstadoSocio.java
-/home/jjoacoder/Desktop/Taller de Base de Datos/backend/Biblioteca_backend/src/main/java/Entidades/Libro.java
-/home/jjoacoder/Desktop/Taller de Base de Datos/backend/Biblioteca_backend/src/main/java/Entidades/Prestamo.java
-/home/jjoacoder/Desktop/Taller de Base de Datos/backend/Biblioteca_backend/src/main/java/Entidades/Socio.java
-/home/jjoacoder/Desktop/Taller de Base de Datos/backend/Biblioteca_backend/src/main/java/com/Springboot/Biblioteca_backend/BibliotecaBackendApplication.java
+E:\Proyecto Universidad\TBD\src\main\java\com\Springboot\Biblioteca_backend\Entidades\Copia.java
+E:\Proyecto Universidad\TBD\src\main\java\com\Springboot\Biblioteca_backend\controller\PingController.java
+E:\Proyecto Universidad\TBD\src\main\java\com\Springboot\Biblioteca_backend\repository\AutorRepository.java
+E:\Proyecto Universidad\TBD\src\main\java\com\Springboot\Biblioteca_backend\Entidades\Prestamo.java
+E:\Proyecto Universidad\TBD\src\main\java\com\Springboot\Biblioteca_backend\Entidades\Socio.java
+E:\Proyecto Universidad\TBD\src\main\java\com\Springboot\Biblioteca_backend\Entidades\Autor.java
+E:\Proyecto Universidad\TBD\src\main\java\com\Springboot\Biblioteca_backend\repository\LibroRepository.java
+E:\Proyecto Universidad\TBD\src\main\java\com\Springboot\Biblioteca_backend\Entidades\EstadoSocio.java
+E:\Proyecto Universidad\TBD\src\main\java\com\Springboot\Biblioteca_backend\Entidades\Libro.java
+E:\Proyecto Universidad\TBD\src\main\java\com\Springboot\Biblioteca_backend\Entidades\EstadoPrestamo.java
+E:\Proyecto Universidad\TBD\src\main\java\com\Springboot\Biblioteca_backend\controller\AutorController.java
+E:\Proyecto Universidad\TBD\src\main\java\com\Springboot\Biblioteca_backend\BibliotecaBackendApplication.java
+E:\Proyecto Universidad\TBD\src\main\java\com\Springboot\Biblioteca_backend\controller\LibroController.java
+E:\Proyecto Universidad\TBD\src\main\java\com\Springboot\Biblioteca_backend\Entidades\EstadoCopia.java

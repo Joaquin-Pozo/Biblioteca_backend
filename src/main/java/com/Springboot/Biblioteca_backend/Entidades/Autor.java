@@ -11,7 +11,6 @@ import java.time.LocalDate;
 public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @Column(name = "nombre_completo", nullable = false, length = 200)
@@ -22,10 +21,4 @@ public class Autor {
 
     @Column(name = "fecha_nacimiento")
     private LocalDate fechaNacimiento;
-
-    public Long getId() { return id; }
-    public String getNombreCompleto() { return nombreCompleto; }
-    public String getNacionalidad() { return nacionalidad; }
-    public java.time.LocalDate getFechaNacimiento() { return fechaNacimiento; }
-
 }

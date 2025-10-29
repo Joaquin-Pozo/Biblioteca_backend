@@ -7,12 +7,15 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "socio")
+@lombok.Data
 public class Socio {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(nullable = false, unique = true, length = 11)
+    private String identificador;
 
     @Column(nullable = false, length = 200)
     private String nombreCompleto;
