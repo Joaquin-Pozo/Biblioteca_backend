@@ -1,6 +1,7 @@
 package com.Springboot.Biblioteca_backend.controller;
 
 import com.Springboot.Biblioteca_backend.Entidades.Copia;
+import com.Springboot.Biblioteca_backend.Entidades.EstadoCopia;
 import com.Springboot.Biblioteca_backend.repository.CopiaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,16 @@ public class CopiaController {
     public ResponseEntity<Copia> obtenerCopia(@PathVariable Long id) {
         Optional<Copia> copia = copiaRepository.findById(id);
         return copia.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/disponibles/{idLibro}")
+    public long contarDisponibles(@PathVariable Long idLibro) {
+        return copiaRepository.countByLibroIdAndEstadoCopia(idLibro, EstadoCopia.disponible);
+    }
+
+    @GetMapping("/stock/{idLibro}")
+    public long contarStock(@PathVariable Long idLibro) {
+        return copiaRepository.countByLibroId(idLibro);
     }
 
     // UPDATE

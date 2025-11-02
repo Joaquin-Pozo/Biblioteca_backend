@@ -20,9 +20,6 @@ public class Libro {
     @Column(nullable = false, length = 255)
     private String titulo;
 
-    @Column(nullable = false)
-    private int stock;
-
     @Column(length = 80)
     private String categoria;
 

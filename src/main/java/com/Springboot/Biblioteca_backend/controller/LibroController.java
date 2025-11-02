@@ -46,7 +46,6 @@ public class LibroController {
                     libro.setCategoria(libroDetalles.getCategoria());
                     libro.setEditorial(libroDetalles.getEditorial());
                     libro.setAnioPublicacion(libroDetalles.getAnioPublicacion());
-                    libro.setStock(libroDetalles.getStock());
                     libro.setAutor(libroDetalles.getAutor()); // suponiendo que tienes relación con Autor
                     Libro actualizado = libroRepository.save(libro);
                     return ResponseEntity.ok(actualizado);
