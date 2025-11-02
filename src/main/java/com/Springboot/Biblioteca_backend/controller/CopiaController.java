@@ -38,11 +38,13 @@ public class CopiaController {
         return copia.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // Stock disponible por id_libro
     @GetMapping("/disponibles/{idLibro}")
     public long contarDisponibles(@PathVariable Long idLibro) {
         return copiaRepository.countByLibroIdAndEstadoCopia(idLibro, EstadoCopia.disponible);
     }
 
+    // Cantidad de copias por id_libro
     @GetMapping("/stock/{idLibro}")
     public long contarStock(@PathVariable Long idLibro) {
         return copiaRepository.countByLibroId(idLibro);
