@@ -28,4 +28,7 @@ public class Libro {
 
     @Column(name = "anio_publicacion")
     private Integer anioPublicacion;
+
+    @Transient
+    private Integer cantidad;
 }
