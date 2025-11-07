@@ -8,5 +8,10 @@ import java.util.List;
 public interface LibroRepository extends JpaRepository<Libro, Long> {
 
     // Busca por coincidencia parcial (no distingue mayúsculas/minúsculas)
+    //
     List<Libro> findByTituloContainingIgnoreCase(String titulo);
+
+    // 🔍 Buscar por nombre parcial del autor (relación ManyToOne)
+    // SELECT * FROM libro l JOIN autor a ON l.id_autor = a.id WHERE LOWER(a.nombre_completo) LIKE LOWER('%nombreAutor%');
+    List<Libro> findByAutorNombreCompletoContainingIgnoreCase(String nombreAutor);
 }

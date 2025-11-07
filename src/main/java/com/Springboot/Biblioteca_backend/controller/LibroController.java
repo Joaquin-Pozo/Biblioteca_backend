@@ -66,6 +66,11 @@ public class LibroController {
         return libroRepository.findByTituloContainingIgnoreCase(titulo);
     }
 
+    @GetMapping("/buscarPorAutor")
+    public List<Libro> buscarPorAutor(@RequestParam("autor") String autor) {
+        return libroRepository.findByAutorNombreCompletoContainingIgnoreCase(autor);
+    }
+
     // UPDATE - actualizar libro
     @PutMapping("/{id}")
     public ResponseEntity<Libro> actualizarLibro(@PathVariable Long id, @RequestBody Libro libroDetalles) {
