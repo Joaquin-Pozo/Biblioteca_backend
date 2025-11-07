@@ -1,13 +1,13 @@
 package com.Springboot.Biblioteca_backend.Entidades;
 
-
 import jakarta.persistence.*;
-
+import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "prestamo")
+@Data
 public class Prestamo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

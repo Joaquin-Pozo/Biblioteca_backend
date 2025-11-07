@@ -1,6 +1,7 @@
 package com.Springboot.Biblioteca_backend.controller;
 
 import com.Springboot.Biblioteca_backend.Entidades.Socio;
+import com.Springboot.Biblioteca_backend.Entidades.EstadoSocio;
 import com.Springboot.Biblioteca_backend.repository.SocioRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,17 @@ public class SocioController {
     public ResponseEntity<Socio> obtenerSocio(@PathVariable Long id) {
         Optional<Socio> socio = socioRepository.findById(id);
         return socio.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/activar/{id}")
+    public ResponseEntity<?> activarSocio(@PathVariable Long id) {
+        return socioRepository.findById(id)
+                .map(socio -> {
+                    socio.setEstadoSocio(EstadoSocio.disponible);
+                    socioRepository.save(socio);
+                    return ResponseEntity.ok("Socio activado nuevamente.");
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // UPDATE - actualizar socio

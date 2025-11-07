@@ -50,6 +50,26 @@ public class CopiaController {
         return copiaRepository.countByLibroId(idLibro);
     }
 
+    // Cambia el estado de una copia en reparacion a disponible
+    @PutMapping("/reparar/{id}")
+    public ResponseEntity<?> repararCopia(@PathVariable Long id) {
+        Optional<Copia> copiaOpt = copiaRepository.findById(id);
+        if (copiaOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Copia copia = copiaOpt.get();
+
+        if (copia.getEstadoCopia() != EstadoCopia.reparacion) {
+            return ResponseEntity.badRequest().body("La copia no está en reparación.");
+        }
+        // Cambiar estado a disponible
+        copia.setEstadoCopia(EstadoCopia.disponible);
+        copiaRepository.save(copia);
+
+        return ResponseEntity.ok("La copia ha sido reparada y ahora está disponible para préstamo.");
+    }
+
+
     // UPDATE
     @PutMapping("/{id}")
     public ResponseEntity<Copia> actualizarCopia(@PathVariable Long id, @RequestBody Copia copiaDetalles) {

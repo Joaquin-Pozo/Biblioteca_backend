@@ -1,17 +1,16 @@
 package com.Springboot.Biblioteca_backend.Entidades;
 
-
 import jakarta.persistence.*;
-
+import lombok.Data;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "socio")
-@lombok.Data
+@Data
 public class Socio {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @Column(nullable = false, unique = true, length = 11)
