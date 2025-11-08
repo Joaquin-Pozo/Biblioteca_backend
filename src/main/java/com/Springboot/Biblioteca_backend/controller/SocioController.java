@@ -38,6 +38,16 @@ public class SocioController {
         return socio.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/buscar/{identificador}")
+    public ResponseEntity<?> buscarPorIdentificador(@PathVariable String identificador) {
+        Optional<Socio> socio = socioRepository.findByIdentificador(identificador);
+        if (socio.isPresent()) {
+            return ResponseEntity.ok(socio.get());
+        } else {
+            return ResponseEntity.ok("Socio no registrado.");
+        }
+    }
+
     @PutMapping("/activar/{id}")
     public ResponseEntity<?> activarSocio(@PathVariable Long id) {
         return socioRepository.findById(id)
