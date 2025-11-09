@@ -1,6 +1,7 @@
 package com.Springboot.Biblioteca_backend.controller;
 
 import com.Springboot.Biblioteca_backend.Entidades.Socio;
+import com.Springboot.Biblioteca_backend.Entidades.EstadoSocio;
 import com.Springboot.Biblioteca_backend.repository.SocioRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,27 @@ public class SocioController {
     public ResponseEntity<Socio> obtenerSocio(@PathVariable Long id) {
         Optional<Socio> socio = socioRepository.findById(id);
         return socio.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/buscar/{identificador}")
+    public ResponseEntity<?> buscarPorIdentificador(@PathVariable String identificador) {
+        Optional<Socio> socio = socioRepository.findByIdentificador(identificador);
+        if (socio.isPresent()) {
+            return ResponseEntity.ok(socio.get());
+        } else {
+            return ResponseEntity.ok("Socio no registrado.");
+        }
+    }
+
+    @PutMapping("/activar/{id}")
+    public ResponseEntity<?> activarSocio(@PathVariable Long id) {
+        return socioRepository.findById(id)
+                .map(socio -> {
+                    socio.setEstadoSocio(EstadoSocio.disponible);
+                    socioRepository.save(socio);
+                    return ResponseEntity.ok("Socio activado nuevamente.");
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // UPDATE - actualizar socio

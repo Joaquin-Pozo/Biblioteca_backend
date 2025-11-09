@@ -1,6 +1,7 @@
 package com.Springboot.Biblioteca_backend.controller;
 
 import com.Springboot.Biblioteca_backend.Entidades.Copia;
+import com.Springboot.Biblioteca_backend.Entidades.EstadoCopia;
 import com.Springboot.Biblioteca_backend.repository.CopiaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,38 @@ public class CopiaController {
         Optional<Copia> copia = copiaRepository.findById(id);
         return copia.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    // Stock disponible por id_libro
+    @GetMapping("/disponibles/{idLibro}")
+    public long contarDisponibles(@PathVariable Long idLibro) {
+        return copiaRepository.countByLibroIdAndEstadoCopia(idLibro, EstadoCopia.disponible);
+    }
+
+    // Cantidad de copias por id_libro
+    @GetMapping("/stock/{idLibro}")
+    public long contarStock(@PathVariable Long idLibro) {
+        return copiaRepository.countByLibroId(idLibro);
+    }
+
+    // Cambia el estado de una copia en reparacion a disponible
+    @PutMapping("/reparar/{id}")
+    public ResponseEntity<?> repararCopia(@PathVariable Long id) {
+        Optional<Copia> copiaOpt = copiaRepository.findById(id);
+        if (copiaOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Copia copia = copiaOpt.get();
+
+        if (copia.getEstadoCopia() != EstadoCopia.reparacion) {
+            return ResponseEntity.badRequest().body("La copia no está en reparación.");
+        }
+        // Cambiar estado a disponible
+        copia.setEstadoCopia(EstadoCopia.disponible);
+        copiaRepository.save(copia);
+
+        return ResponseEntity.ok("La copia ha sido reparada y ahora está disponible para préstamo.");
+    }
+
 
     // UPDATE
     @PutMapping("/{id}")
