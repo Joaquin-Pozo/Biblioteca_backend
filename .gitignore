@@ -1,1 +1,13 @@
+# Archivos compilados
 target/
+
+# Configuración de IntelliJ
+.idea/
+*.iml
+
+# Logs
+*.log
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
