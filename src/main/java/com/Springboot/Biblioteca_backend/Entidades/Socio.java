@@ -13,7 +13,7 @@ public class Socio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 11)
+    @Column(nullable = false, unique = true, length = 12)
     private String identificador;
 
     @Column(nullable = false, length = 200)
