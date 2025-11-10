@@ -55,13 +55,30 @@ public class PrestamoController {
             return ResponseEntity.ok().body("El socio está restringido o suspendido y no puede realizar préstamos.");
         }
 
+        //  Validar fecha de devolución pactada
+        if (prestamo.getFechaPactadaDevolucion() == null) {
+            return ResponseEntity.ok().body("Debe indicar la fecha pactada de devolución.");
+        }
+
+        LocalDateTime hoy = LocalDateTime.now();
+        LocalDateTime maxPermitido = hoy.plusDays(14);
+        LocalDateTime pactada = prestamo.getFechaPactadaDevolucion();
+
+        if (pactada.isBefore(hoy.toLocalDate().atStartOfDay())) {
+            return ResponseEntity.ok().body("La fecha pactada debe ser igual o posterior a la fecha actual.");
+        }
+
+        if (pactada.isAfter(maxPermitido)) {
+            return ResponseEntity.ok().body("La fecha pactada no puede superar los 14 días desde hoy.");
+        }
+
         // Configurar datos del préstamo
         prestamo.setFechaPrestamo(LocalDateTime.now());
         prestamo.setEstadoPrestamo(EstadoPrestamo.activo);
         prestamo.setMulta(BigDecimal.ZERO);
         prestamo.setDaniado(false);
 
-        // Guardar
+        // Guardar préstamo
         Prestamo guardado = prestamoRepository.save(prestamo);
 
         // Cambiar estado de la copia
