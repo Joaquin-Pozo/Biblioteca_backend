@@ -4,17 +4,18 @@ import com.Springboot.Biblioteca_backend.Entidades.*;
 import com.Springboot.Biblioteca_backend.repository.CopiaRepository;
 import com.Springboot.Biblioteca_backend.repository.PrestamoRepository;
 import com.Springboot.Biblioteca_backend.repository.SocioRepository;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/prestamo")
 public class PrestamoController {
 
@@ -62,11 +63,11 @@ public class PrestamoController {
             return ResponseEntity.ok().body("Debe indicar la fecha pactada de devolución.");
         }
 
-        LocalDateTime hoy = LocalDateTime.now();
-        LocalDateTime maxPermitido = hoy.plusDays(14);
-        LocalDateTime pactada = prestamo.getFechaPactadaDevolucion();
+        LocalDate hoy = LocalDate.now();
+        LocalDate maxPermitido = hoy.plusDays(14);
+        LocalDate pactada = prestamo.getFechaPactadaDevolucion();
 
-        if (pactada.isBefore(hoy.toLocalDate().atStartOfDay())) {
+        if (pactada.isBefore(hoy)) {
             return ResponseEntity.ok().body("La fecha pactada debe ser igual o posterior a la fecha actual.");
         }
 
@@ -75,7 +76,7 @@ public class PrestamoController {
         }
 
         // Configurar datos del préstamo
-        prestamo.setFechaPrestamo(LocalDateTime.now());
+        prestamo.setFechaPrestamo(hoy);
         prestamo.setEstadoPrestamo(EstadoPrestamo.activo);
         prestamo.setMulta(BigDecimal.ZERO);
         prestamo.setDaniado(false);
@@ -103,7 +104,7 @@ public class PrestamoController {
             return ResponseEntity.badRequest().body("El préstamo ya fue devuelto o está inactivo.");
         }
 
-        prestamo.setFechaDevolucion(LocalDateTime.now());
+        prestamo.setFechaDevolucion(LocalDate.now());
         prestamo.setEstadoPrestamo(EstadoPrestamo.completado);
 
         Socio socio = prestamo.getSocio();

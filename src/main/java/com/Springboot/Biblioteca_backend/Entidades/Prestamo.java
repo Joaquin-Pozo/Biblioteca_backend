@@ -3,7 +3,7 @@ package com.Springboot.Biblioteca_backend.Entidades;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "prestamo")
@@ -23,13 +23,13 @@ public class Prestamo {
     private Socio socio;
 
     @Column(name = "fecha_prestamo", nullable = false)
-    private LocalDateTime fechaPrestamo;
+    private LocalDate fechaPrestamo;
 
     @Column(name = "fecha_pactada_devolucion", nullable = false)
-    private LocalDateTime fechaPactadaDevolucion;
+    private LocalDate fechaPactadaDevolucion;
 
     @Column(name = "fecha_devolucion")
-    private LocalDateTime fechaDevolucion;
+    private LocalDate fechaDevolucion;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado_prestamo", nullable = false, length = 20)
