@@ -87,4 +87,15 @@ public class SocioController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @PutMapping("/eliminar/{id}")
+    public ResponseEntity<?> suspenderSocio(@PathVariable Long id) {
+        return socioRepository.findById(id)
+                .map(socio -> {
+                    socio.setEstadoSocio(EstadoSocio.suspendido);
+                    socioRepository.save(socio);
+                    return ResponseEntity.ok("Socio ha sido suspendido.");
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
