@@ -4,5 +4,6 @@ public enum EstadoCopia {
     disponible,
     prestado,
     reparacion,
-    perdido
+    perdido,
+    baja
 }

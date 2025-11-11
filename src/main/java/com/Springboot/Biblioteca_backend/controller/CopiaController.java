@@ -85,6 +85,17 @@ public class CopiaController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @PutMapping("/eliminar/{id}")
+    public ResponseEntity<?> bajaCopia(@PathVariable Long id) {
+        return copiaRepository.findById(id)
+                .map(copia -> {
+                    copia.setEstadoCopia(EstadoCopia.baja); // nuevo estado lógico
+                    copiaRepository.save(copia);
+                    return ResponseEntity.ok("Copia marcada como dado de baja.");
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     // DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarCopia(@PathVariable Long id) {
