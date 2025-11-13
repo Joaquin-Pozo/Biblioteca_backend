@@ -112,10 +112,10 @@ public class PrestamoController {
 
         // Verificar atraso
         if (prestamo.getFechaDevolucion().isAfter(prestamo.getFechaPactadaDevolucion())) {
-            long diasAtraso = java.time.Duration.between(
+            long diasAtraso = java.time.temporal.ChronoUnit.DAYS.between(
                     prestamo.getFechaPactadaDevolucion(),
                     prestamo.getFechaDevolucion()
-            ).toDays();
+            );
 
             prestamo.setEstadoPrestamo(EstadoPrestamo.atrasado);
             BigDecimal multa = BigDecimal.valueOf(diasAtraso * 500);
