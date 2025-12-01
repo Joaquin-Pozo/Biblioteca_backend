@@ -27,7 +27,7 @@ public class AutorController {
     // READ - listar todos
     @GetMapping
     public List<Autor> listarAutores() {
-        return autorRepository.findAll();
+        return autorRepository.findAllByOrderByNombreCompletoAsc();
     }
 
     // READ - buscar por id

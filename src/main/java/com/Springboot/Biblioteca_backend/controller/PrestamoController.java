@@ -100,7 +100,7 @@ public class PrestamoController {
         }
 
         Prestamo prestamo = prestamoOpt.get();
-        if (prestamo.getEstadoPrestamo() != EstadoPrestamo.activo) {
+        if (prestamo.getEstadoPrestamo() == EstadoPrestamo.completado) {
             return ResponseEntity.badRequest().body("El préstamo ya fue devuelto o está inactivo.");
         }
 
@@ -117,7 +117,7 @@ public class PrestamoController {
                     prestamo.getFechaDevolucion()
             );
 
-            prestamo.setEstadoPrestamo(EstadoPrestamo.atrasado);
+            //prestamo.setEstadoPrestamo(EstadoPrestamo.atrasado);
             BigDecimal multa = BigDecimal.valueOf(diasAtraso * 500);
             prestamo.setMulta(multa);
             restringir = true;

@@ -29,7 +29,7 @@ public class SocioController {
     // READ - listar todos
     @GetMapping
     public List<Socio> listarSocios() {
-        return socioRepository.findAll();
+        return socioRepository.findAllByOrderByNombreCompletoAsc();
     }
 
     // READ - buscar por id
