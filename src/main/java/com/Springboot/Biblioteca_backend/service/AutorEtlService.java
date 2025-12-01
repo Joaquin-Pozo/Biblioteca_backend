@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 @Service
 public class AutorEtlService {
@@ -24,7 +25,7 @@ public class AutorEtlService {
     public EtlSociosResultDto procesarCsv(MultipartFile file) {
         EtlSociosResultDto resultado = new EtlSociosResultDto();
 
-        // Validación básica de archivo
+        // ✅ Validación básica de archivo
         if (file == null || file.isEmpty()) {
             resultado.agregarError(0, "No se recibió archivo o está vacío.");
             return resultado;
@@ -36,7 +37,7 @@ public class AutorEtlService {
             String linea;
             int numeroFila = 0;
 
-            // Leer cabecera
+            // ✅ Leer cabecera
             linea = reader.readLine();
             if (linea == null) {
                 resultado.agregarError(0, "El archivo CSV está vacío.");
@@ -44,25 +45,24 @@ public class AutorEtlService {
             }
             numeroFila++; // fila 1 = cabecera
 
-            // Esperamos: nombre_completo,nacionalidad,fecha_nacimiento
+            // ✅ Esperamos: nombre_completo,nacionalidad,fecha_nacimiento
             String[] header = linea.split(",");
             if (header.length < 3) {
                 resultado.agregarError(1, "La cabecera del CSV no tiene las 3 columnas esperadas.");
                 return resultado;
             }
 
-            // Procesar filas de datos
+            // ✅ Procesar filas
             while ((linea = reader.readLine()) != null) {
-                numeroFila++; // empieza en 2 para la primera fila de datos
+                numeroFila++;
 
-                // Saltar filas totalmente vacías
                 if (linea.trim().isEmpty()) {
                     continue;
                 }
 
                 resultado.setTotalFilas(resultado.getTotalFilas() + 1);
 
-                String[] columnas = linea.split(",", -1); // -1 para incluir vacíos
+                String[] columnas = linea.split(",", -1);
 
                 if (columnas.length < 3) {
                     resultado.incrementarErrores();
@@ -76,26 +76,24 @@ public class AutorEtlService {
 
                 // ---------- VALIDACIONES ----------
 
-                // nombre_completo (obligatorio)
                 if (nombreCompleto.isEmpty()) {
                     resultado.incrementarErrores();
                     resultado.agregarError(numeroFila, "El nombre_completo es obligatorio.");
                     continue;
                 }
+
                 if (nombreCompleto.length() > 200) {
                     resultado.incrementarErrores();
                     resultado.agregarError(numeroFila, "El nombre_completo excede los 200 caracteres.");
                     continue;
                 }
 
-                // nacionalidad (opcional, longitud máxima 60)
                 if (!nacionalidad.isEmpty() && nacionalidad.length() > 60) {
                     resultado.incrementarErrores();
                     resultado.agregarError(numeroFila, "La nacionalidad excede los 60 caracteres.");
                     continue;
                 }
 
-                // fecha_nacimiento (opcional)
                 LocalDate fechaNacimiento = null;
                 if (!fechaNacimientoStr.isEmpty()) {
                     try {
@@ -110,14 +108,28 @@ public class AutorEtlService {
                     }
                 }
 
-                // ---------- INSERT SIEMPRE NUEVO AUTOR ----------
-                Autor autor = new Autor();
-                autor.setNombreCompleto(nombreCompleto);
-                autor.setNacionalidad(nacionalidad.isEmpty() ? null : nacionalidad);
-                autor.setFechaNacimiento(fechaNacimiento);
+                // ---------- ✅ INSERT O UPDATE (UPSERT) ----------
 
-                autorRepository.save(autor);
-                resultado.incrementarInsertadas();
+                List<Autor> autoresExistentes =
+                        autorRepository.findByNombreCompletoIgnoreCase(nombreCompleto);
+
+                if (!autoresExistentes.isEmpty()) {
+                    // ✅ ACTUALIZA SOLO EL PRIMER AUTOR ENCONTRADO
+                    Autor autor = autoresExistentes.get(0);
+                    autor.setNacionalidad(nacionalidad.isEmpty() ? null : nacionalidad);
+                    autor.setFechaNacimiento(fechaNacimiento);
+                    autorRepository.save(autor);
+                    resultado.incrementarActualizadas();
+
+                } else {
+                    // ✅ INSERT
+                    Autor autor = new Autor();
+                    autor.setNombreCompleto(nombreCompleto);
+                    autor.setNacionalidad(nacionalidad.isEmpty() ? null : nacionalidad);
+                    autor.setFechaNacimiento(fechaNacimiento);
+                    autorRepository.save(autor);
+                    resultado.incrementarInsertadas();
+                }
             }
 
         } catch (Exception e) {

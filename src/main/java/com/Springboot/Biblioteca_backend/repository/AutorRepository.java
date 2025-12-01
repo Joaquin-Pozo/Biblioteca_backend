@@ -7,4 +7,6 @@ import java.util.List;
 public interface AutorRepository extends JpaRepository<Autor, Long> {
     // Ordenar automáticamente por nombre
     List<Autor> findAllByOrderByNombreCompletoAsc();
+
+    List<Autor> findByNombreCompletoIgnoreCase(String nombreCompleto);
 }
